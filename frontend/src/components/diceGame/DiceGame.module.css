@@ -1,0 +1,45 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  gap: 50px;
+}
+
+.button-box {
+  display: flex;
+  justify-content: space-around;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+  position: relative;
+  height: 75vh;
+}
+
+.diceBox {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -70%);
+  width: 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.dice {
+  width: 100px;
+  height: 100px;
+}
+
+.mainRollBtn {
+  padding: 10px;
+  font-size: 1.2rem;
+}
