@@ -156,6 +156,7 @@ export const Provider = ({ children }) => {
   const rollCtx = useContext(DiceRollContext);
   const [gameState, dispatch] = useReducer(gameReducer, initialState);
   const [isModalVisible, setIsModalVisible] = useState(true);
+  const [isRolling, setIsRolling] = useState(false);
 
   const onStartGame = (plrCount) => {
     dispatch({ type: "START_GAME", payload: plrCount });
@@ -165,6 +166,7 @@ export const Provider = ({ children }) => {
     const playerId = +e.target.id;
     if (gameState.listOfPlayer[gameState.activePlayer] !== playerId) return;
     const diceNumber = Math.floor(Math.random() * 6) + 1;
+    setIsRolling(true);
     setTimeout(() => {
       dispatch({
         type: "UPDATE_CURRENT_SCORE",
@@ -173,13 +175,19 @@ export const Provider = ({ children }) => {
       if (diceNumber === 1) {
         dispatch({ type: "NEXT_PLAYER" });
       }
+      setIsRolling(false);
     }, 4030);
+
     rollCtx.random(diceNumber);
   };
 
   const holdHandler = (e) => {
     const playerId = +e.target.id;
-    if (gameState.listOfPlayer[gameState.activePlayer] !== playerId) return;
+    if (
+      gameState.listOfPlayer[gameState.activePlayer] !== playerId ||
+      isRolling
+    )
+      return;
 
     if (gameState.playerCount === 2) {
       dispatch({ type: "NEXT_PLAYER" });
@@ -199,15 +207,17 @@ export const Provider = ({ children }) => {
   };
 
   const selectPlayerHandler = (e) => {
-    if (gameState.activePlayer !== 7) return;
+    if (gameState.activePlayer !== 7 || isRolling) return;
     const diceNumber = Math.floor(
       Math.random() * gameState.listOfPlayer.length
     );
+    setIsRolling(true);
     setTimeout(() => {
       dispatch({
         type: "UPDATE_ACTIVE_PLAYER",
         payload: diceNumber,
       });
+      setIsRolling(false);
     }, 4500);
 
     rollCtx.random(gameState.listOfPlayer[diceNumber] + 1);
