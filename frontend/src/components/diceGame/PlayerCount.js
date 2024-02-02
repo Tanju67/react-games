@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./PlayerCount.module.css";
-import Button from "../UIElemets/Button";
+import Button from "../shared/UIElemets/Button";
 
 function PlayerCount({ onClickHandler }) {
   return (

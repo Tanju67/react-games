@@ -1,14 +1,16 @@
 import React, { useContext, useState } from "react";
 import classes from "./DiceGame.module.css";
-import Button from "../UIElemets/Button";
-import Card from "../UIElemets/Card";
+import Button from "../shared/UIElemets/Button";
+import Card from "../shared/UIElemets/Card";
 import Dice from "./Dice";
 import Player from "./Player";
-import Modal from "../UIElemets/Modal";
+import Modal from "../shared/UIElemets/Modal";
 import PlayerCount from "./PlayerCount";
 import { GameContext } from "../shared/context/gameContext";
 import WinnerList from "./WinnerList";
 import GameRules from "./GameRules";
+import { FaHome } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 function DiceGame() {
   const gameCtx = useContext(GameContext);
@@ -39,6 +41,9 @@ function DiceGame() {
         </Modal>
       )}
       <div className={classes["button-box"]}>
+        <NavLink to={"/"}>
+          <FaHome />
+        </NavLink>
         <Button onClick={gameCtx.onNewGame}>New Game</Button>
         <Button onClick={() => setShowGameRules(true)}>Game's Rule</Button>
       </div>

@@ -55,3 +55,21 @@
   width: 80%;
   height: min-content;
 }
+
+.button-box a {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+
+.button-box svg {
+  color: #fff;
+  width: 4rem;
+  height: 4rem;
+  transition: all 0.3s;
+}
+
+.button-box svg:hover {
+  width: 5rem;
+  height: 5rem;
+}

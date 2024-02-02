@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import classes from "./WinnerList.module.css";
-import Button from "../UIElemets/Button";
+import Button from "../shared/UIElemets/Button";
 import { GameContext } from "../shared/context/gameContext";
 
 function WinnerList({ index }) {
