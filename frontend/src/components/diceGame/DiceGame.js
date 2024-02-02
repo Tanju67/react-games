@@ -3,45 +3,57 @@ import classes from "./DiceGame.module.css";
 import Button from "../UIElemets/Button";
 import Card from "../UIElemets/Card";
 import Dice from "./Dice";
-import { DiceRollContext } from "../shared/context/diceRollContext";
 import Player from "./Player";
 import Modal from "../UIElemets/Modal";
 import PlayerCount from "./PlayerCount";
+import { GameContext } from "../shared/context/gameContext";
+import WinnerList from "./WinnerList";
+import GameRules from "./GameRules";
 
 function DiceGame() {
-  const rollCtx = useContext(DiceRollContext);
-  const [showModal, setShowModal] = useState(true);
-  const [playerCount, setPlayerCount] = useState("");
+  const gameCtx = useContext(GameContext);
 
-  const onClickHandler = (e) => {
-    setShowModal(false);
-    setPlayerCount(e.target.textContent);
-  };
+  const [swowGameRules, setShowGameRules] = useState(false);
 
   const players = [];
 
-  for (let i = 0; i < playerCount; i++) {
-    players.push(<Player key={i} index={i} />);
+  for (let i = 0; i < gameCtx.gameState.playerCount; i++) {
+    players.push(<Player key={i} index={i} id={i} />);
   }
+
   return (
     <div className={classes.game}>
-      {showModal && (
+      {gameCtx.isModalVisible && (
         <Modal>
-          <PlayerCount onClickHandler={onClickHandler} />
+          {!gameCtx.gameState.isGameOver && (
+            <PlayerCount onClickHandler={gameCtx.onCloseModal} />
+          )}
+          {gameCtx.gameState.isGameOver && (
+            <WinnerList index={gameCtx.gameState.winnerList} />
+          )}
+        </Modal>
+      )}
+      {swowGameRules && (
+        <Modal className={classes.rules}>
+          <GameRules onClose={() => setShowGameRules(false)} />
         </Modal>
       )}
       <div className={classes["button-box"]}>
-        <Button>New Game</Button>
-        <Button>Game's Rule</Button>
+        <Button onClick={gameCtx.onNewGame}>New Game</Button>
+        <Button onClick={() => setShowGameRules(true)}>Game's Rule</Button>
       </div>
       <Card className={classes.container}>
         <div className={classes.diceBox}>
           <Button
             id={7}
-            onClick={() => rollCtx.random()}
-            className={classes.mainRollBtn}
+            onClick={gameCtx.onSelectPlayer}
+            className={`${classes.mainRollBtn} ${
+              gameCtx.gameState.activePlayer === 7 ? classes.active : ""
+            }`}
           >
-            🎲 Roll dice
+            {gameCtx.gameState.activePlayer === 7
+              ? "🎲 Select Next Player"
+              : "🎲 Wait"}
           </Button>
           <Card className={classes.dice}>
             <Dice />

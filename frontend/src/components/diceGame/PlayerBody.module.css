@@ -77,3 +77,42 @@
 .body--5 {
   border: 10px solid var(--clr5);
 }
+
+.body--0 .current.active {
+  background-color: var(--clr0);
+}
+
+.body--1 .current.active {
+  background-color: var(--clr1);
+}
+.body--2 .current.active {
+  background-color: var(--clr2);
+}
+.body--3 .current.active {
+  background-color: var(--clr3);
+}
+.body--4 .current.active {
+  background-color: var(--clr4);
+}
+.body--5 .current.active {
+  background-color: var(--clr5);
+}
+
+.body--0.winner {
+  background-color: var(--clr0);
+}
+.body--1.winner {
+  background-color: var(--clr1);
+}
+.body--2.winner {
+  background-color: var(--clr2);
+}
+.body--3.winner {
+  background-color: var(--clr3);
+}
+.body--4.winner {
+  background-color: var(--clr4);
+}
+.body--5.winner {
+  background-color: var(--clr5);
+}

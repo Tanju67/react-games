@@ -4,16 +4,18 @@ export const DiceRollContext = createContext({
   animation: false,
   rotation: "rotateX(0deg) rotateY(0deg)",
   random: () => {},
+  diceNumber: 1,
 });
 
 export const Provider = ({ children }) => {
   const [animation, setAnimation] = useState(false);
   const [rotation, setRotation] = useState("rotateX(0deg) rotateY(0deg)");
+  const [diceNumber, setDiceNumber] = useState();
 
-  const random = () => {
-    console.log("hey");
+  const random = (diceNumber) => {
     const random = Math.floor(Math.random() * 6) + 1;
-    rollDice(random);
+    setDiceNumber(diceNumber ? diceNumber : random);
+    rollDice(diceNumber ? diceNumber : random);
   };
 
   const rollDice = (random) => {
@@ -28,11 +30,11 @@ export const Provider = ({ children }) => {
           setRotation(" rotateX(180deg) rotateY(0deg)");
           break;
 
-        case 2:
+        case 5:
           setRotation(" rotateX(-90deg) rotateY(0deg)");
           break;
 
-        case 5:
+        case 2:
           setRotation(" rotateX(90deg) rotateY(0deg)");
           break;
 
@@ -56,6 +58,7 @@ export const Provider = ({ children }) => {
         animation: animation,
         rotation: rotation,
         random: random,
+        diceNumber: diceNumber,
       }}
     >
       {children}
