@@ -10,8 +10,12 @@ function WinnerList({ index }) {
     <div className={classes.box}>
       <h2 className={classes.title}>The winners of the game</h2>
       <ol className={classes.list}>
-        {sortedWinnerList.map((list) => {
-          return <li key={list.id}>Player {list.player}</li>;
+        {sortedWinnerList.map((list, i) => {
+          return (
+            <li key={list.id}>
+              {i + 1}. Player {list.player}
+            </li>
+          );
         })}
       </ol>
       <Button onClick={gameCtx.onNewGame}>New Game</Button>

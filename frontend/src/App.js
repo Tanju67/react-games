@@ -5,6 +5,7 @@ import GamesPage from "./Pages/GamesPage";
 import Index from "./Pages/Index";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
+import GuessGamePage from "./Pages/GuessGamePage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
         </Route>
         <Route path="/dice-game" element={<DiceGamePage />} />
+        <Route path="/guess-game" element={<GuessGamePage />} />
       </Routes>
     </BrowserRouter>
   );

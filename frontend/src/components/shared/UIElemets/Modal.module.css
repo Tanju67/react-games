@@ -5,7 +5,7 @@
   height: 120vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.25);
-  z-index: 100;
+  z-index: 1000;
   backdrop-filter: blur(3px);
 }
 
@@ -13,7 +13,7 @@
   position: absolute;
   background-color: #fff;
   width: 50%;
-  z-index: 101;
+  z-index: 1001;
   height: 50vh;
   top: 50%;
   left: 50%;
