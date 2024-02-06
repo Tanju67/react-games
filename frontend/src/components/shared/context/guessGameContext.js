@@ -10,7 +10,6 @@ const initialState = {
   secretNumber: Math.trunc(Math.random() * 20 + 1),
   guess: 2,
   lastGuess: 2,
-  translateTime: 0,
   score: 20,
   highscore: 0,
   message: "start",
@@ -27,9 +26,6 @@ const guessReducer = (state, action) => {
         guess: action.payload,
         lastGuess: state.guess,
       };
-
-    case "CALC_TRANSLATE":
-      return { ...state, translateTime: action.payload - state.lastGuess };
 
     case "UPDATE_MSG":
       let msg;
@@ -92,7 +88,6 @@ export const Provider = ({ children }) => {
   const guessHandler = (input) => {
     if (+input < 1 || +input > 20) return;
     dispatch({ type: "UPDATE_GUESS", payload: +input });
-    dispatch({ type: "CALC_TRANSLATE", payload: +input });
     dispatch({ type: "UPDATE_MSG", payload: +input });
     dispatch({ type: "UPDATE_SCORE", payload: +input });
     dispatch({ type: "UPDATE_ISGAMEOVER", payload: +input });
