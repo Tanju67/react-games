@@ -3,6 +3,7 @@ require("express-async-errors");
 
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const app = express();
 
 const connectDB = require("./db/connect");
@@ -13,6 +14,7 @@ const notFound = require("./middleware/not-found");
 const errorHandler = require("./middleware/error-handler");
 
 app.use(express.json());
+app.use(cors());
 app.use(morgan("tiny"));
 
 app.use("/api/v1/user", userRoutes);

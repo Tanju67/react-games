@@ -5,23 +5,22 @@ import { GuessContext } from "../shared/context/guessGameContext";
 import Button from "../shared/UIElemets/Button";
 
 function GameModalsContainer({ newGame, setInput }) {
-  const { status, newHighscore, highscore, score } =
-    useContext(GuessContext).guessGameState;
+  const { status, score } = useContext(GuessContext).guessGameState;
+  const { highscore } = useContext(GuessContext);
   return (
     <Modal className={classes.guessModal}>
       <h2>{status === "win" ? "🎉 YOU WON 🎉" : "💣 YOU LOST 💣"}</h2>
 
-      {status === "win" && newHighscore && (
+      {status === "win" && (
         <p>
-          <span>Your New Highscore: </span> {highscore}
+          <span>Your {score > highscore && "New "}Highscore: </span>{" "}
+          {highscore > score ? highscore : score}
         </p>
       )}
 
-      {!newHighscore && (
-        <p>
-          <span>Your Score: </span> {score}
-        </p>
-      )}
+      <p>
+        <span>Your Score: </span> {score}
+      </p>
 
       <Button
         onClick={() => {

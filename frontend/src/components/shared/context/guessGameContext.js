@@ -1,6 +1,7 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 export const GuessContext = createContext({
+  highscore: 0,
   guessGameState: {},
   onGuess: () => {},
   newGame: () => {},
@@ -11,11 +12,9 @@ const initialState = {
   guess: 2,
   lastGuess: 2,
   score: 20,
-  highscore: 0,
   message: "start",
   isGameOver: false,
   status: "playing",
-  newHighscore: false,
 };
 
 const guessReducer = (state, action) => {
@@ -54,10 +53,7 @@ const guessReducer = (state, action) => {
         return {
           ...state,
           isGameOver: true,
-          highscore:
-            state.highscore > state.score ? state.highscore : state.score,
           status: "win",
-          newHighscore: state.highscore < state.score ? true : false,
         };
       }
 
@@ -74,7 +70,8 @@ const guessReducer = (state, action) => {
       return {
         ...initialState,
         secretNumber: Math.trunc(Math.random() * 20 + 1),
-        highscore: state.highscore,
+        status: "playing",
+        isGameOver: false,
       };
 
     default:
@@ -84,6 +81,43 @@ const guessReducer = (state, action) => {
 
 export const Provider = ({ children }) => {
   const [guessGameState, dispatch] = useReducer(guessReducer, initialState);
+  const [highscore, setHighscore] = useState(0);
+
+  const updateHighscore = async () => {
+    if (guessGameState.score > highscore) {
+      try {
+        const token = localStorage.getItem("token");
+        await fetch("http://localhost:5000/api/v1/user/highscore", {
+          method: "POST",
+          body: JSON.stringify({ highscore: guessGameState.score }),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const getHighscore = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:5000/api/v1/user/highscore", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      setHighscore(data.score.highscore);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getHighscore();
+  }, []);
 
   const guessHandler = (input) => {
     if (+input < 1 || +input > 20) return;
@@ -91,9 +125,13 @@ export const Provider = ({ children }) => {
     dispatch({ type: "UPDATE_MSG", payload: +input });
     dispatch({ type: "UPDATE_SCORE", payload: +input });
     dispatch({ type: "UPDATE_ISGAMEOVER", payload: +input });
+    if (guessGameState.score === 20) {
+      getHighscore();
+    }
   };
 
   const newGame = () => {
+    updateHighscore();
     dispatch({ type: "NEW_GAME" });
   };
 
@@ -103,6 +141,7 @@ export const Provider = ({ children }) => {
         guessGameState: guessGameState,
         onGuess: guessHandler,
         newGame: newGame,
+        highscore: highscore,
       }}
     >
       {children}

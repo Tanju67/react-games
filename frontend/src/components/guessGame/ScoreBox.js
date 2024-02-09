@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classes from "./ScoreBox.module.css";
 import { GuessContext } from "../shared/context/guessGameContext";
 
 function ScoreBox() {
-  const { score, highscore } = useContext(GuessContext).guessGameState;
+  const { score } = useContext(GuessContext).guessGameState;
+  const { highscore } = useContext(GuessContext);
+
   return (
     <div className={classes.scoreBox}>
       <p>

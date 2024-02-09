@@ -5,21 +5,41 @@ import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../utils/validators";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Input from "../shared/UIElemets/Input";
 import classes from "./Register.module.css";
 import Button from "../shared/UIElemets/Button";
 
 function Register() {
+  const navigate = useNavigate();
   const [inputHandler, formState] = useForm({
     email: { value: "", isValid: false },
     password: { value: "", isValid: false },
     isValid: false,
   });
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(formState);
+    try {
+      const res = await fetch("http://localhost:5000/api/v1/user/register", {
+        method: "POST",
+        body: JSON.stringify({
+          name: formState.name.value,
+          email: formState.email.value,
+          password: formState.password.value,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!res.ok) {
+        throw new Error("Something went wrong");
+      }
+      const data = await res.json();
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className={classes.register}>

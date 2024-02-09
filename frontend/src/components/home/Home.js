@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./Home.module.css";
 import homeImg from "../../assets/undraw_video_game_night_8h8m (1).svg";
 import Button from "../shared/UIElemets/Button";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../shared/context/authContext";
 
 function Home() {
+  const { isLoggedIn } = useContext(AuthContext);
   return (
     <div className={classes.home}>
       <div className={classes.textBox}>
@@ -17,7 +19,7 @@ function Home() {
           Aliquam at tincidunt massa.
         </p>
         <Button>
-          <NavLink to={"/login"}>Play Game</NavLink>{" "}
+          <NavLink to={isLoggedIn ? "/games" : "/login"}>Play Game</NavLink>
         </Button>
       </div>
       <div className={classes.imgBox}>

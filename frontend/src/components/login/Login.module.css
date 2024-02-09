@@ -46,3 +46,9 @@ p {
 .loginForm a:hover {
   color: red;
 }
+
+.errorMsg {
+  margin-top: 2rem;
+  background-color: red;
+  color: #fff;
+}

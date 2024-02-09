@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import classes from "./PlayerHeader.module.css";
 import { GameContext } from "../shared/context/gameContext";
+import { AuthContext } from "../shared/context/authContext";
 
 function PlayerHeader({ index }) {
   const gameCtx = useContext(GameContext);
+  const authCtx = useContext(AuthContext);
 
   return (
     <div
@@ -21,8 +23,8 @@ function PlayerHeader({ index }) {
       } `}
     >
       <h2 className={classes.name} id="name--0">
-        <span>Player</span>
-        <span>{index + 1}</span>
+        <span>{index === 0 ? authCtx.userName : "Player"}</span>
+        <span>{index === 0 ? "" : index + 1}</span>
       </h2>
       <p className={classes.score} id="score--0">
         {gameCtx.gameState.scoreOfPlayers[+index].score}
